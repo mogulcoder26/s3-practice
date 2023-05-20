@@ -1,11 +1,12 @@
 const express=require('express');
 const app=express();
+const env=require('dotenv').config();
 const PORT=3090;
 const ejs=require('ejs');
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
 const fs=require('fs');
-
+ 
 
 app.get('/',(req,res)=>{
     res.sendFile(__dirname+'/index.html');

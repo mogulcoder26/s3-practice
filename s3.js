@@ -28,10 +28,23 @@ const uploadToS3=(file)=>{
         Key:file.filename
     }
 
-    return s3.uploadToS3(uploadParams).promise()
+    return s3.upload(uploadParams).promise()
 }
 
 
 
 
+
 //download a file from s3 bucket to express server
+
+const downloadfromS3=(key)=>{
+
+    const downloadParams={
+        Bucket:bucketName,
+        Key:key
+    }
+   
+  return  s3.getObject(downloadParams).createReadStream();
+}
+
+module.exports = {uploadToS3,downloadfromS3};

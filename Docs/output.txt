@@ -1,0 +1,4 @@
+Hello !
+
+
+This is illustration text for pipe() method

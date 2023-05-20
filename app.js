@@ -6,7 +6,8 @@ const ejs=require('ejs');
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
 const fs=require('fs');
-
+const bodyParser=require('body-parser');
+app.use(bodyParser.urlencoded({extended:true}))
 const {uploadToS3,downloadfromS3} = require('./s3')
 
 app.get('/',(req,res)=>{
@@ -14,10 +15,35 @@ app.get('/',(req,res)=>{
     console.log(`User Hit HomePage!`);
 })
 
+
+app.get('/selectsong',(req,res)=>{
+  res.sendFile(__dirname+'/selection.html');  
+})
+
+app.post('/selector',async(req,res)=>{
+    console.log(req.body.legg);
+    console.log(req.body.pegg);
+    const choice1=req.body.legg;
+    const choice2=req.body.pegg;
+
+    if(choice1){
+        key='eceddb5b34c1b39b5706542e4e2470b2';
+    }
+    else{
+        key='43e3bf839e82fed3fe714e4f17a2ad83';
+    }
+
+    const DATA_COLLECTED = await downloadfromS3(key);
+    DATA_COLLECTED.pipe(res);
+
+    // res.send("POSTED");
+
+})
+
 app.get('/images/:key', async (req, res) => {
     console.log(req.params)
     const key = req.params.key
-    const DATA_COLLECTED = await downloadfromS3(key)
+    // const DATA_COLLECTED = await downloadfromS3(key)
   
     DATA_COLLECTED.pipe(res);
   })
